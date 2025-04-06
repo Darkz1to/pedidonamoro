@@ -1,77 +1,34 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chess.com API Request</title>
+</head>
+<body>
+<h1>Chess.com Player Stats</h1>
+<p id="playerStats"></p>
 
-<html>
+<script>
+const getUrlUsername = () => {
+  const url = window.location.href;
+  const parts = url.split('/');
+  return parts[parts.length - 1].toLowerCase(); // Obtém a última parte da URL (ex: "julia")
+};
 
-	<head>
+const username = getUrlUsername();
+const apiUrl = `https://api.chess.com/pub/player/${username}/stats`;
 
-		<title>Me Namora?!</title>
-
-        <link rel="shortcut icon" href="assets/css/images/favicon.png">
-
-		<meta charset="utf-8" />
-
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <!-- CSS -->
-
-        <link rel="stylesheet" href="assets/css/main.css"/>
-
-		<link rel="stylesheet" href="assets/css/font-awesome-animation.min.css">
-
-	</head>
-
-	<body class="loading">
-
-		<div id="wrapper">
-
-			<div id="bg"></div>
-
-			<div id="overlay"></div>
-
-			<div id="main">
-
-				<!-- Header -->
-
-				<header id="header">
-
-				    <h1>Me Namora?</h1>
-
-				    <p>"Desde a primeira vez que te vi, meus olhos não desfixaram de você. Cada átomo da minha existência te deseja, então aqui declaro os mais sinceros sentimentos, posso ser privilegiado com a graça de ter você?</p>
-
-				    <p>Seus olhos são tão lindos quanto estrelas. </p>
-
-				    <nav>
-
-				        <ul>
-
-				            <li><a href="login.html" class="icon fa-heart faa-pulse animated"><span class="label">heart</span></a></li>
-
-				            <li><a href="#" class="icon fa-times-circle"><span class="label">times</span></a></li>
-
-				        </ul>
-
-				    </nav>
-
-				</header>
-
-				<!-- Footer -->
-
-				<footer id="footer"><span class="icon fa-volume-up"><span class="label">volume-up</span></footer>
-
-            </div>
-
-		</div>
-
-		<script>
-
-			window.onload = function() { document.body.className = ''; }
-
-			window.ontouchmove = function() { return false; }
-
-			window.onorientationchange = function() { document.body.scrollTop = 0; }
-
-		</script>
-
+fetch(apiUrl)
+  .then(response => response.json())
+  .then(data => {
+    const playerStats = data.chess_daily; // Altere para o tipo de estatística desejada
+    document.getElementById('playerStats').innerText = JSON.stringify(playerStats, null, 2);
+  })
+  .catch(error => {
+    console.error('Erro ao buscar estatísticas:', error);
+    document.getElementById('playerStats').innerText = 'Erro ao buscar estatísticas.';
+  });
+</script>
+</body>
 </html>
-
-  
